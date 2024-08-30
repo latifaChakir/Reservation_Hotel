@@ -12,6 +12,8 @@ public class Hotel {
     public Hotel() {
         this.chambres = new ArrayList<Chambre>();
         this.reservations = new ArrayList<Reservation>();
+        this.chambres.add(new Chambre(1,"simple", true));  // Chambre 1, disponible
+        this.chambres.add(new Chambre(2,"simple",  true));  // Chambre 2, disponible
     }
 
     // Getters and Setters

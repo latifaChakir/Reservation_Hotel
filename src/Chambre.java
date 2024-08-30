@@ -2,10 +2,10 @@ public class Chambre {
     private  int numero;
     private  String type;
     private boolean isDisponible;
-    public Chambre(int numero, String type) {
+    public Chambre(int numero, String type, boolean isDisponible) {
         this.numero = numero;
         this.type=type;
-        this.isDisponible=true;
+        this.isDisponible=isDisponible;
     }
     public int getNumero() {
         return  numero;

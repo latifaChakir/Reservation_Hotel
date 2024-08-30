@@ -1,15 +1,100 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Hotel hotel = new Hotel();
+        Scanner scanner = new Scanner(System.in);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        while (true) {
+            System.out.println("\n1. Create reservation");
+            System.out.println("2. Cancel reservation");
+            System.out.println("3. Display reservations");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+
+            int choice;
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Client name: ");
+                    String clientName = scanner.nextLine();
+
+                    System.out.print("Client age: ");
+                    int age;
+                    try {
+                        age = Integer.parseInt(scanner.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid age. Please enter a number.");
+                        break;
+                    }
+
+                    System.out.print("Client address: ");
+                    String address = scanner.nextLine();
+
+                    System.out.print("Client phone: ");
+                    String phone = scanner.nextLine();
+
+                    System.out.print("Numero de chambre : ");
+                    int chambreNumero;
+                    try {
+                        chambreNumero = Integer.parseInt(scanner.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid room number. Please enter a number.");
+                        break;
+                    }
+
+                    System.out.print("Date Debut (yyyy-MM-dd): ");
+                    LocalDate dateDebut;
+                    try {
+                        dateDebut = LocalDate.parse(scanner.nextLine(), formatter);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid start date. Please enter the date in the format yyyy-MM-dd.");
+                        break;
+                    }
+
+                    System.out.print("Date Fin (yyyy-MM-dd): ");
+                    LocalDate dateFin;
+                    try {
+                        dateFin = LocalDate.parse(scanner.nextLine(), formatter);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid end date. Please enter the date in the format yyyy-MM-dd.");
+                        break;
+                    }
+
+                    Client client = new Client(clientName, age, address, phone);
+                    boolean success = hotel.creerReservation(client, chambreNumero, dateDebut, dateFin);
+                    if (success) {
+                        System.out.println("Reservation created successfully!");
+                    } else {
+                        System.out.println("Failed to create reservation. Room might be unavailable.");
+                    }
+                    break;
+
+                case 2:
+
+                    break;
+
+                case 3:
+                    System.out.print("Client name: ");
+                    break;
+
+                case 4:
+                    System.out.println("Goodbye!");
+                    return;
+
+                default:
+                    System.out.println("Invalid option.");
+            }
         }
     }
 }
