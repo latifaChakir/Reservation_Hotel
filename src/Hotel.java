@@ -11,9 +11,10 @@ public class Hotel {
 
     public Hotel() {
         this.chambres = new ArrayList<Chambre>();
-        this.reservations=new ArrayList<Reservation>();
+        this.reservations = new ArrayList<Reservation>();
     }
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -38,17 +39,19 @@ public class Hotel {
         this.address = address;
     }
 
-    public boolean creerReservation(Client client, int numerochambre, LocalDate debut, LocalDate fin) {
-        Chambre chambre=trouverChambre(numerochambre);
-        if(chambre!=null && chambre.isDisponible()) {
-            Reservation reservation= new Reservation(id,client, chambre, debut,fin);
+    // Méthode pour créer une réservation
+    public boolean creerReservation(Client client, int numeroChambre, LocalDate debut, LocalDate fin) {
+        Chambre chambre = trouverChambre(numeroChambre);
+        if (chambre != null && chambre.isDisponible()) {
+            Reservation reservation = new Reservation(client, chambre, debut, fin);
             reservations.add(reservation);
             chambre.reserver();
             return true;
-
         }
         return false;
     }
+
+    // Méthode pour trouver une chambre par son numéro
     public Chambre trouverChambre(int numeroChambre) {
         for (Chambre chambre : chambres) {
             if (chambre.getNumero() == numeroChambre) {
@@ -57,26 +60,22 @@ public class Hotel {
         }
         return null;
     }
-    public void annulerRervation(Reservation reservation) {
+
+    public void annulerReservation(Reservation reservation) {
         reservation.getChambre().liberer();
         reservations.remove(reservation);
     }
 
-    public boolean modifierReservation(int numerochambre,Client client,LocalDate debut, LocalDate fin) {
-        Chambre chambre=trouverChambre(numerochambre);
-        if(chambre!=null && chambre.isDisponible()) {
-            Reservation reservation=reservations.get(chambre.getNumero());
-            reservation.setChambre(chambre);
-            reservation.setClient(client);
-            reservation.setDateDebut(debut);
-            reservation.setDateFin(fin);
 
-        }else{
-            return false;
+    public boolean modifierReservation(int numeroChambre, Client client, LocalDate debut, LocalDate fin) {
+        for (Reservation reservation : reservations) {
+            if (reservation.getChambre().getNumero() == numeroChambre) {
+                reservation.setClient(client);
+                reservation.setDateDebut(debut);
+                reservation.setDateFin(fin);
+                return true;
+            }
         }
-        return true;
+        return false;
     }
-
-
-
 }
