@@ -10,12 +10,14 @@ public class Main {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         while (true) {
-            System.out.println("\n1. Create reservation");
-            System.out.println("2. Create reservation");
-            System.out.println("3. Cancel reservation");
-            System.out.println("4. Display reservations");
-            System.out.println("5. Exit");
-            System.out.print("Choose an option: ");
+            System.out.println("\n1. Créer une réservation");
+            System.out.println("2. Modifier une réservation");
+            System.out.println("3. Afficher toutes les réservations");
+            System.out.println("4. Afficher les réservations d'un client");
+            System.out.println("5. Annuler une réservation");
+            System.out.println("6. Quitter");
+            System.out.print("Choisissez une option: ");
+
 
             int choice;
             try {
@@ -137,15 +139,33 @@ public class Main {
                     break;
 
                 case 3:
-                    System.out.print("Client name: ");
+                    hotel.afficherToutesLesReservations();
                     break;
 
                 case 4:
-                    System.out.println("Goodbye!");
+                    System.out.print("Entrez le nom du client: ");
+                    String nomClient = scanner.nextLine();
+                    hotel.afficherReservationsClient(nomClient);
+                    break;
+
+                case 5:
+                    System.out.print("Entrez le numéro de la chambre de la réservation à annuler: ");
+                    int chambreNumeroAnnuler;
+                    try {
+                        chambreNumeroAnnuler = Integer.parseInt(scanner.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Numéro de chambre invalide. Veuillez entrer un nombre.");
+                        break;
+                    }
+                    hotel.annulerReservation(chambreNumeroAnnuler);
+                    break;
+
+                case 6:
+                    System.out.println("Au revoir !");
                     return;
 
                 default:
-                    System.out.println("Invalid option.");
+                    System.out.println("Option invalide.");
             }
         }
     }

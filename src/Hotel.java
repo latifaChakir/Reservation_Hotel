@@ -63,9 +63,16 @@ public class Hotel {
         return null;
     }
 
-    public void annulerReservation(Reservation reservation) {
-        reservation.getChambre().liberer();
-        reservations.remove(reservation);
+    public void annulerReservation(int chambreNumero) {
+        for (Reservation reservation : reservations) {
+            if (reservation.getChambre().getNumero() == chambreNumero) {
+                reservation.getChambre().liberer();
+                reservations.remove(reservation);
+                System.out.println("Réservation annulée avec succès pour la chambre " + chambreNumero);
+                return;
+            }
+        }
+        System.out.println("Aucune réservation trouvée pour la chambre " + chambreNumero);
     }
 
 
@@ -80,4 +87,33 @@ public class Hotel {
         }
         return false;
     }
+
+    public void afficherToutesLesReservations() {
+        if (reservations.isEmpty()) {
+            System.out.println("Aucune réservation n'a été trouvée.");
+        } else {
+            for (Reservation reservation : reservations) {
+                System.out.println("Chambre: " + reservation.getChambre().getNumero() +
+                        ", Client: " + reservation.getClient().getName() +
+                        ", Début: " + reservation.getDateDebut() +
+                        ", Fin: " + reservation.getDateFin());
+            }
+        }
+    }
+    public void afficherReservationsClient(String nomClient) {
+        boolean found = false;
+        for (Reservation reservation : reservations) {
+            if (reservation.getClient().getName().equalsIgnoreCase(nomClient)) {
+                System.out.println("Chambre: " + reservation.getChambre().getNumero() +
+                        ", Début: " + reservation.getDateDebut() +
+                        ", Fin: " + reservation.getDateFin());
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Aucune réservation trouvée pour le client " + nomClient);
+        }
+    }
+
+
 }
