@@ -114,14 +114,24 @@ public class Hotel {
         boolean found = false;
         for (Reservation reservation : reservations) {
             if (reservation.getClient().getName().equalsIgnoreCase(nomClient)) {
-                System.out.println("Chambre: " + reservation.getChambre().getNumero() +
-                        ", Début: " + reservation.getDateDebut() +
-                        ", Fin: " + reservation.getDateFin());
+                System.out.println("|--------------------------------------------------------------|");
+                System.out.println("|     Chambre     |         Debut        |          Fin        |");
+                System.out.println("|--------------------------------------------------------------|");
+                System.out.println("|        " + reservation.getChambre().getNumero() +"        |       "
+                        + reservation.getDateDebut() + "     |       "
+                        + reservation.getDateFin() + "    |     ");
+                System.out.println("|--------------------------------------------------------------|");
+
                 found = true;
             }
         }
         if (!found) {
-            System.out.println("Aucune réservation trouvée pour le client " + nomClient);
+            System.out.println("|-------------------------------------------------------------------------------------|");
+            System.out.println("|     Chambre     |        Client        |         Debut        |          Fin        |");
+            System.out.println("|-------------------------------------------------------------------------------------|");
+            System.out.println("|             Aucune réservation trouvée pour le client" + nomClient+"                |");
+            System.out.println("|-------------------------------------------------------------------------------------|");
+
         }
     }
 
