@@ -75,6 +75,10 @@ public class Main {
                         System.out.println("Invalid end date. Please enter the date in the format yyyy-MM-dd.");
                         break;
                     }
+                    if (dateFin.isBefore(dateDebut)) {
+                        System.out.println("End date cannot be before the start date. Please enter a valid end date.");
+                        break;
+                    }
 
                     Client client = new Client(clientName, age, address, phone);
                     boolean success = hotel.creerReservation(client, chambreNumero, dateDebut, dateFin);
