@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.print("    Application de Gestion de Réservation d'Hôtel \n");
+        System.out.print(" ==================================================");
         Hotel hotel = new Hotel();
         Scanner scanner = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

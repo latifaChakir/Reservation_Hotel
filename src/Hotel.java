@@ -90,13 +90,23 @@ public class Hotel {
 
     public void afficherToutesLesReservations() {
         if (reservations.isEmpty()) {
-            System.out.println("Aucune réservation n'a été trouvée.");
+            System.out.println("|-------------------------------------------------------------------------------------|");
+            System.out.println("|     Chambre     |        Client        |         Debut        |          Fin        |");
+            System.out.println("|-------------------------------------------------------------------------------------|");
+            System.out.println("|                          Aucune réservation n'a été trouvée.                        |");
+            System.out.println("|-------------------------------------------------------------------------------------|");
+
         } else {
             for (Reservation reservation : reservations) {
-                System.out.println("Chambre: " + reservation.getChambre().getNumero() +
-                        ", Client: " + reservation.getClient().getName() +
-                        ", Début: " + reservation.getDateDebut() +
-                        ", Fin: " + reservation.getDateFin());
+                System.out.println("|-------------------------------------------------------------------------------------|");
+                System.out.println("|     Chambre     |        Client        |         Debut        |          Fin        |");
+                System.out.println("|-------------------------------------------------------------------------------------|");
+                System.out.println("|        " + reservation.getChambre().getNumero() +"        |       "
+                        + reservation.getClient().getName() + "    |      "
+                        + reservation.getDateDebut() + "      |       "
+                        + reservation.getDateFin() + "    |     ");
+                System.out.println("|-------------------------------------------------------------------------------------|");
+
             }
         }
     }
