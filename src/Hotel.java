@@ -12,8 +12,10 @@ public class Hotel {
     public Hotel() {
         this.chambres = new ArrayList<Chambre>();
         this.reservations = new ArrayList<Reservation>();
-        this.chambres.add(new Chambre(1,"simple", true));  // Chambre 1, disponible
-        this.chambres.add(new Chambre(2,"simple",  true));  // Chambre 2, disponible
+        this.chambres.add(new Chambre(1,"simple", true));
+        this.chambres.add(new Chambre(2,"simple",  true));
+        this.chambres.add(new Chambre(3,"simple",  false));
+
     }
 
     // Getters and Setters
@@ -41,27 +43,42 @@ public class Hotel {
         this.address = address;
     }
 
-    // Méthode pour créer une réservation
     public boolean creerReservation(Client client, int numeroChambre, LocalDate debut, LocalDate fin) {
-        Chambre chambre = trouverChambre(numeroChambre);
-        if (chambre != null && chambre.isDisponible()) {
-            Reservation reservation = new Reservation(client, chambre, debut, fin);
-            reservations.add(reservation);
+        Chambre chambre = trouverChambre(numeroChambre, debut, fin);
+        if (chambre != null) {
+            Reservation newReservation = new Reservation(client, chambre, debut, fin);
+            reservations.add(newReservation);
             chambre.reserver();
             return true;
         }
         return false;
     }
 
-    // Méthode pour trouver une chambre par son numéro
-    public Chambre trouverChambre(int numeroChambre) {
+    public Chambre trouverChambre(int numeroChambre, LocalDate dateDebut, LocalDate dateFin) {
         for (Chambre chambre : chambres) {
             if (chambre.getNumero() == numeroChambre) {
-                return chambre;
+                boolean isAvailable = true;
+
+                for (Reservation reservation : reservations) {
+                    if (reservation.getChambre().getNumero() == numeroChambre) {
+                        if (reservation.getDateFin().isBefore(LocalDate.now())) {
+                            reservation.getChambre().liberer();
+                            reservations.remove(reservation);
+                        } else {
+                            if (!(dateFin.isBefore(reservation.getDateDebut()) || dateDebut.isAfter(reservation.getDateFin()))) {
+                                isAvailable = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                return isAvailable ? chambre : null;
             }
         }
         return null;
     }
+
+
 
     public void annulerReservation(int chambreNumero) {
         for (Reservation reservation : reservations) {
@@ -101,8 +118,8 @@ public class Hotel {
                 System.out.println("|-------------------------------------------------------------------------------------|");
                 System.out.println("|     Chambre     |        Client        |         Debut        |          Fin        |");
                 System.out.println("|-------------------------------------------------------------------------------------|");
-                System.out.println("|        " + reservation.getChambre().getNumero() +"        |       "
-                        + reservation.getClient().getName() + "    |      "
+                System.out.println("|        " + reservation.getChambre().getNumero() +"        |         "
+                        + reservation.getClient().getName() + "         |      "
                         + reservation.getDateDebut() + "      |       "
                         + reservation.getDateFin() + "    |     ");
                 System.out.println("|-------------------------------------------------------------------------------------|");
