@@ -10,6 +10,7 @@ public class Main {
         Hotel hotel = new Hotel();
         Scanner scanner = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate now = LocalDate.now();
 
         while (true) {
             System.out.println("\n1. Créer une réservation");
@@ -33,51 +34,80 @@ public class Main {
                 case 1:
                     System.out.print("Client name: ");
                     String clientName = scanner.nextLine();
+                    while(clientName.isEmpty()){
+                        System.out.print("Client name: ");
+                        clientName = scanner.nextLine();
+                    }
 
                     System.out.print("Client age: ");
-                    int age;
-                    try {
-                        age = Integer.parseInt(scanner.nextLine());
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid age. Please enter a number.");
-                        break;
+                    int age = 0;
+                    while (age <= 0) {
+                        try {
+                            age = Integer.parseInt(scanner.nextLine());
+                            if (age <= 0) {
+                                System.out.println("Age must be a positive number. Please enter a valid age.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid age. Please enter a number.");
+                        }
                     }
 
                     System.out.print("Client address: ");
                     String address = scanner.nextLine();
+                    while(address.isEmpty()){
+                        System.out.print("Client address: ");
+                        address = scanner.nextLine();
+                    }
 
                     System.out.print("Client phone: ");
                     String phone = scanner.nextLine();
-
-                    System.out.print("Numero de chambre : ");
-                    int chambreNumero;
-                    try {
-                        chambreNumero = Integer.parseInt(scanner.nextLine());
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid room number. Please enter a number.");
-                        break;
+                    while(phone.isEmpty()){
+                        System.out.print("Client phone: ");
+                        phone = scanner.nextLine();
                     }
+
+                    System.out.print("Numero de chambre: ");
+                    int chambreNumero = -1;
+                    while (chambreNumero <= 0) {
+                        try {
+                            chambreNumero = Integer.parseInt(scanner.nextLine());
+                            if (chambreNumero <= 0) {
+                                System.out.println("Room number must be a positive number. Please enter a valid room number.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid room number. Please enter a number.");
+                        }
+                    }
+
 
                     System.out.print("Date Debut (yyyy-MM-dd): ");
                     LocalDate dateDebut;
-                    try {
-                        dateDebut = LocalDate.parse(scanner.nextLine(), formatter);
-                    } catch (DateTimeParseException e) {
-                        System.out.println("Invalid start date. Please enter the date in the format yyyy-MM-dd.");
-                        break;
+                    while (true) {
+                        try {
+                            dateDebut = LocalDate.parse(scanner.nextLine(), formatter);
+                            if (dateDebut.isBefore(now)) {
+                                System.out.println("Start date must be today or later. Please enter a valid start date.");
+                            } else {
+                                break;
+                            }
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Invalid start date. Please enter the date in the format yyyy-MM-dd.");
+                        }
                     }
 
                     System.out.print("Date Fin (yyyy-MM-dd): ");
                     LocalDate dateFin;
-                    try {
-                        dateFin = LocalDate.parse(scanner.nextLine(), formatter);
-                    } catch (DateTimeParseException e) {
-                        System.out.println("Invalid end date. Please enter the date in the format yyyy-MM-dd.");
-                        break;
-                    }
-                    if (dateFin.isBefore(dateDebut)) {
-                        System.out.println("End date cannot be before the start date. Please enter a valid end date.");
-                        break;
+                    while (true) {
+                        try {
+                            dateFin = LocalDate.parse(scanner.nextLine(), formatter);
+                            if (dateFin.isBefore(dateDebut)) {
+                                System.out.println("End date cannot be before the start date. Please enter a valid end date.");
+                            } else {
+                                break;
+                            }
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Invalid end date. Please enter the date in the format yyyy-MM-dd.");
+                        }
                     }
 
                     Client client = new Client(clientName, age, address, phone);
@@ -91,24 +121,32 @@ public class Main {
 
                 case 2:
                     System.out.print("Numero de chambre de la reservation à modifier: ");
-                    int chambreNumeroModif;
-                    try {
-                        chambreNumeroModif = Integer.parseInt(scanner.nextLine());
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid room number. Please enter a number.");
-                        break;
+                    int chambreNumeroModif = -1;
+                    while (chambreNumeroModif <= 0) {
+                        try {
+                            chambreNumeroModif = Integer.parseInt(scanner.nextLine());
+                            if (chambreNumeroModif <= 0) {
+                                System.out.println("Room number must be a positive number. Please enter a valid room number.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid room number. Please enter a number.");
+                        }
                     }
 
                     System.out.print("Nouveau nom du client: ");
                     String newClientName = scanner.nextLine();
 
                     System.out.print("Nouvel âge du client: ");
-                    int newAge;
-                    try {
-                        newAge = Integer.parseInt(scanner.nextLine());
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid age. Please enter a number.");
-                        break;
+                    int newAge = 0;
+                    while (newAge <= 0) {
+                        try {
+                            newAge = Integer.parseInt(scanner.nextLine());
+                            if (newAge <= 0) {
+                                System.out.println("Age must be a positive number. Please enter a valid age.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid age. Please enter a number.");
+                        }
                     }
 
                     System.out.print("Nouvelle adresse du client: ");
@@ -119,20 +157,33 @@ public class Main {
 
                     System.out.print("Nouvelle date de début (yyyy-MM-dd): ");
                     LocalDate newDateDebut;
-                    try {
-                        newDateDebut = LocalDate.parse(scanner.nextLine(), formatter);
-                    } catch (DateTimeParseException e) {
-                        System.out.println("Invalid start date. Please enter the date in the format yyyy-MM-dd.");
-                        break;
+                    while (true) {
+                        try {
+                            newDateDebut = LocalDate.parse(scanner.nextLine(), formatter);
+                            if (newDateDebut.isBefore(now)) {
+                                System.out.println("Start date must be today or later. Please enter a valid start date.");
+                            } else {
+                                break;
+                            }
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Invalid start date. Please enter the date in the format yyyy-MM-dd.");
+                        }
                     }
+
 
                     System.out.print("Nouvelle date de fin (yyyy-MM-dd): ");
                     LocalDate newDateFin;
-                    try {
-                        newDateFin = LocalDate.parse(scanner.nextLine(), formatter);
-                    } catch (DateTimeParseException e) {
-                        System.out.println("Invalid end date. Please enter the date in the format yyyy-MM-dd.");
-                        break;
+                    while (true) {
+                        try {
+                            newDateFin = LocalDate.parse(scanner.nextLine(), formatter);
+                            if (newDateFin.isBefore(newDateDebut)) {
+                                System.out.println("End date cannot be before the start date. Please enter a valid end date.");
+                            } else {
+                                break;
+                            }
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Invalid end date. Please enter the date in the format yyyy-MM-dd.");
+                        }
                     }
 
                     Client newClient = new Client(newClientName, newAge, newAddress, newPhone);
