@@ -120,12 +120,12 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.print("Numero de chambre de la reservation à modifier: ");
-                    int chambreNumeroModif = -1;
-                    while (chambreNumeroModif <= 0) {
+                    System.out.print("id de la reservation à modifier: ");
+                    int ReservIdModif = -1;
+                    while (ReservIdModif <= 0) {
                         try {
-                            chambreNumeroModif = Integer.parseInt(scanner.nextLine());
-                            if (chambreNumeroModif <= 0) {
+                            ReservIdModif = Integer.parseInt(scanner.nextLine());
+                            if (ReservIdModif <= 0) {
                                 System.out.println("Room number must be a positive number. Please enter a valid room number.");
                             }
                         } catch (NumberFormatException e) {
@@ -187,7 +187,7 @@ public class Main {
                     }
 
                     Client newClient = new Client(newClientName, newAge, newAddress, newPhone);
-                    boolean modifSuccess = hotel.modifierReservation(chambreNumeroModif, newClient, newDateDebut, newDateFin);
+                    boolean modifSuccess = hotel.modifierReservation(ReservIdModif, newClient, newDateDebut, newDateFin);
                     if (modifSuccess) {
                         System.out.println("Reservation modified successfully!");
                     } else {
@@ -206,15 +206,15 @@ public class Main {
                     break;
 
                 case 5:
-                    System.out.print("Entrez le numéro de la chambre de la réservation à annuler: ");
-                    int chambreNumeroAnnuler;
+                    System.out.print("Entrez id de la réservation à annuler: ");
+                    int RervationId;
                     try {
-                        chambreNumeroAnnuler = Integer.parseInt(scanner.nextLine());
+                        RervationId = Integer.parseInt(scanner.nextLine());
                     } catch (NumberFormatException e) {
-                        System.out.println("Numéro de chambre invalide. Veuillez entrer un nombre.");
+                        System.out.println("id invalide. Veuillez entrer id de reservation .");
                         break;
                     }
-                    hotel.annulerReservation(chambreNumeroAnnuler);
+                    hotel.annulerReservation(RervationId);
                     break;
 
                 case 6:

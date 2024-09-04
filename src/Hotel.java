@@ -8,6 +8,7 @@ public class Hotel {
     private String address;
     private List<Chambre> chambres;
     private List<Reservation> reservations;
+    private static int currentReservationId = 1;
 
     public Hotel() {
         this.chambres = new ArrayList<Chambre>();
@@ -46,7 +47,8 @@ public class Hotel {
     public boolean creerReservation(Client client, int numeroChambre, LocalDate debut, LocalDate fin) {
         Chambre chambre = trouverChambre(numeroChambre, debut, fin);
         if (chambre != null) {
-            Reservation newReservation = new Reservation(client, chambre, debut, fin);
+            int reservationId = currentReservationId++;
+            Reservation newReservation = new Reservation(reservationId,client, chambre, debut, fin);
             reservations.add(newReservation);
             chambre.reserver();
             return true;
@@ -80,22 +82,21 @@ public class Hotel {
 
 
 
-    public void annulerReservation(int chambreNumero) {
+    public void annulerReservation(int reservationId) {
         for (Reservation reservation : reservations) {
-            if (reservation.getChambre().getNumero() == chambreNumero) {
+            if (reservation.getId() == reservationId) {
                 reservation.getChambre().liberer();
                 reservations.remove(reservation);
-                System.out.println("Réservation annulée avec succès pour la chambre " + chambreNumero);
+                System.out.println("Réservation annulée avec succès pour l'ID de réservation " + reservationId);
                 return;
             }
         }
-        System.out.println("Aucune réservation trouvée pour la chambre " + chambreNumero);
+        System.out.println("Aucune réservation trouvée avec l'ID " + reservationId);
     }
 
-
-    public boolean modifierReservation(int numeroChambre, Client client, LocalDate debut, LocalDate fin) {
+    public boolean modifierReservation(int reservationId, Client client, LocalDate debut, LocalDate fin) {
         for (Reservation reservation : reservations) {
-            if (reservation.getChambre().getNumero() == numeroChambre) {
+            if (reservation.getId() == reservationId) {
                 reservation.setClient(client);
                 reservation.setDateDebut(debut);
                 reservation.setDateFin(fin);
@@ -104,25 +105,24 @@ public class Hotel {
         }
         return false;
     }
-
     public void afficherToutesLesReservations() {
         if (reservations.isEmpty()) {
-            System.out.println("|-------------------------------------------------------------------------------------|");
-            System.out.println("|     Chambre     |        Client        |         Debut        |          Fin        |");
-            System.out.println("|-------------------------------------------------------------------------------------|");
-            System.out.println("|                          Aucune réservation n'a été trouvée.                        |");
-            System.out.println("|-------------------------------------------------------------------------------------|");
+            System.out.println("|-----------------------------------------------------------------------------------------------|");
+            System.out.println("|    id    |    Chambre     |        Client        |         Debut        |          Fin        |");
+            System.out.println("|-----------------------------------------------------------------------------------------------|");
+            System.out.println("|                          Aucune réservation n'a été trouvée.                                  |");
+            System.out.println("|-----------------------------------------------------------------------------------------------|");
 
         } else {
+            System.out.println("|-----------------------------------------------------------------------------------------------|");
+            System.out.println("|    id    |    Chambre     |        Client        |         Debut        |          Fin        |");
+            System.out.println("|-----------------------------------------------------------------------------------------------|");
             for (Reservation reservation : reservations) {
-                System.out.println("|-------------------------------------------------------------------------------------|");
-                System.out.println("|     Chambre     |        Client        |         Debut        |          Fin        |");
-                System.out.println("|-------------------------------------------------------------------------------------|");
-                System.out.println("|        " + reservation.getChambre().getNumero() +"        |         "
-                        + reservation.getClient().getName() + "         |      "
+                System.out.println("|      "+reservation.getId()+ "   |       " + reservation.getChambre().getNumero() +"        |         "
+                        + reservation.getClient().getName() + "          |      "
                         + reservation.getDateDebut() + "      |       "
                         + reservation.getDateFin() + "    |     ");
-                System.out.println("|-------------------------------------------------------------------------------------|");
+            System.out.println("|-----------------------------------------------------------------------------------------------|");
 
             }
         }

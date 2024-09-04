@@ -6,11 +6,12 @@ public class Reservation {
     private Chambre chambre;
     private LocalDate dateDebut;
     private LocalDate dateFin;
-    public Reservation(Client client, Chambre chambre, LocalDate dateDebut, LocalDate dateFin) {
+    public Reservation(int id,Client client, Chambre chambre, LocalDate dateDebut, LocalDate dateFin) {
         this.client = client;
         this.chambre = chambre;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
+        this.id = id;
     }
 
     public int getId() {
