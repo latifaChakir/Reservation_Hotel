@@ -120,21 +120,25 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.print("id de la reservation à modifier: ");
+                    System.out.print("id de la réservation à modifier: ");
                     int ReservIdModif = -1;
                     while (ReservIdModif <= 0) {
                         try {
                             ReservIdModif = Integer.parseInt(scanner.nextLine());
                             if (ReservIdModif <= 0) {
-                                System.out.println("Room number must be a positive number. Please enter a valid room number.");
+                                System.out.println("Please enter a valid Id number.");
                             }
                         } catch (NumberFormatException e) {
-                            System.out.println("Invalid room number. Please enter a number.");
+                            System.out.println("Invalid id number. Please enter a number.");
                         }
                     }
 
                     System.out.print("Nouveau nom du client: ");
                     String newClientName = scanner.nextLine();
+                    while(newClientName.isEmpty()){
+                        System.out.print("Nouveau nom du client: ");
+                        newClientName = scanner.nextLine();
+                    }
 
                     System.out.print("Nouvel âge du client: ");
                     int newAge = 0;
@@ -151,9 +155,30 @@ public class Main {
 
                     System.out.print("Nouvelle adresse du client: ");
                     String newAddress = scanner.nextLine();
+                    while(newAddress.isEmpty()){
+                        System.out.print("Nouvelle adresse du client: ");
+                        newAddress = scanner.nextLine();
+                    }
 
                     System.out.print("Nouveau numéro de téléphone du client: ");
                     String newPhone = scanner.nextLine();
+                    while(newPhone.isEmpty()){
+                        System.out.print("Nouveau numéro de téléphone du client: ");
+                        newPhone = scanner.nextLine();
+                    }
+
+                    System.out.print("Nouveau numéro de chambre: ");
+                    int newChambreNumero = -1;
+                    while (newChambreNumero <= 0) {
+                        try {
+                            newChambreNumero = Integer.parseInt(scanner.nextLine());
+                            if (newChambreNumero <= 0) {
+                                System.out.println("Room number must be a positive number. Please enter a valid room number.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid room number. Please enter a number.");
+                        }
+                    }
 
                     System.out.print("Nouvelle date de début (yyyy-MM-dd): ");
                     LocalDate newDateDebut;
@@ -169,7 +194,6 @@ public class Main {
                             System.out.println("Invalid start date. Please enter the date in the format yyyy-MM-dd.");
                         }
                     }
-
 
                     System.out.print("Nouvelle date de fin (yyyy-MM-dd): ");
                     LocalDate newDateFin;
@@ -187,11 +211,11 @@ public class Main {
                     }
 
                     Client newClient = new Client(newClientName, newAge, newAddress, newPhone);
-                    boolean modifSuccess = hotel.modifierReservation(ReservIdModif, newClient, newDateDebut, newDateFin);
+                    boolean modifSuccess = hotel.modifierReservation(ReservIdModif, newClient, newDateDebut, newDateFin, newChambreNumero);
                     if (modifSuccess) {
-                        System.out.println("Reservation modified successfully!");
+                        System.out.println("Réservation modifiée avec succès !");
                     } else {
-                        System.out.println("Failed to modify reservation. Room might not be booked yet or some error occurred.");
+                        System.out.println("Échec de la modification de la réservation. La chambre pourrait ne pas être encore réservée ou une erreur s'est produite.");
                     }
                     break;
 

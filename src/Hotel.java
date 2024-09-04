@@ -94,17 +94,41 @@ public class Hotel {
         System.out.println("Aucune réservation trouvée avec l'ID " + reservationId);
     }
 
-    public boolean modifierReservation(int reservationId, Client client, LocalDate debut, LocalDate fin) {
+    public boolean modifierReservation(int reservationId, Client client, LocalDate debut, LocalDate fin, int numeroChambre) {
+        // Rechercher la réservation à modifier
         for (Reservation reservation : reservations) {
             if (reservation.getId() == reservationId) {
+                // Trouver une chambre disponible pour les nouvelles dates
+                Chambre nouvelleChambre = trouverChambre(numeroChambre, debut, fin);
+
+                // Vérifier si la chambre est disponible
+                if (nouvelleChambre == null) {
+                    System.out.println("La chambre avec le numéro spécifié n'est pas disponible pour les dates données.");
+                    return false;
+                }
+
+                // Mettre à jour les détails de la réservation
                 reservation.setClient(client);
                 reservation.setDateDebut(debut);
                 reservation.setDateFin(fin);
+                reservation.setChambre(nouvelleChambre);
                 return true;
             }
         }
+        System.out.println("Aucune réservation trouvée avec l'ID " + reservationId);
         return false;
     }
+
+    public Chambre getChambreByNumero(int numeroChambre) {
+        for (Chambre chambre : chambres) {
+            if (chambre.getNumero() == numeroChambre) {
+                return chambre;
+            }
+        }
+        return null;
+    }
+
+
     public void afficherToutesLesReservations() {
         if (reservations.isEmpty()) {
             System.out.println("|-----------------------------------------------------------------------------------------------|");
